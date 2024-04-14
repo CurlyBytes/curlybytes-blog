@@ -34,6 +34,15 @@ steps:
       php index.php Gitblog exportSite
     workingDirectory: '$(Build.SourcesDirectory)'
 
+- task: CopyFiles@2
+  displayName: 'Copy SiteMaps'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/sitemaps'
+    Contents: |
+      sitemap.xml
+      BingSiteAuth.xml
+    TargetFolder: '$(Build.SourcesDirectory)/_site'
+
 - task: ArchiveFiles@2
   displayName: 'Zip Static Assets'
   inputs:
