@@ -1,50 +1,42 @@
-# PHP
-# Test and package your PHP project.
-# Add steps that run tests, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/php
-
+#MVP Pipeline CICD
+---
 trigger:
-- feat/cicd
+- master
 
 pool:
-  name: 'VMSSLinux'
+  vmImage: ubuntu-20.04
 
 variables:
-  phpVersion: 7.4
-
+- group: 'curlybytes-blog'
+- name: phpVersion
+  value: '7.4'
 
 steps:
-- script: |
-    sudo update-alternatives --set php /usr/bin/php$(phpVersion)
-    sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
-    sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
-    sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
-    sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
-    php -version
+- task: Bash@3
   displayName: 'Use PHP version $(phpVersion)'
-
-- script: composer install --no-interaction --prefer-dist
-  displayName: 'composer install'
+  inputs:
+    targetType: 'inline'
+    script: |
+      sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+      sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+      sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+      sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+      sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+      php -version
+    workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: Bash@3
+  displayName: 'Use PHP version $(phpVersion)'
   inputs:
     targetType: 'inline'
     script: |
       CI_ENV="production" 
       php index.php Gitblog exportSite
-    workingDirectory: '$(Build.SourcesDirectory)/public'
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/sitemaps'
-    Contents: |
-      sitemap.xml
-      BingSiteAuth.xml
-    TargetFolder: '$(Build.SourcesDirectory)/dist'
+    workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.SourcesDirectory)/dist'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/_site'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
@@ -55,3 +47,12 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+  
+- task: AzureStaticWebApp@0
+  inputs:
+    workingDirectory: '$(Build.SourcesDirectory)'
+    app_location: '_site'
+    skip_app_build: true
+    skip_api_build: true
+    is_static_export: true
+    azure_static_web_apps_api_token: '$(staticwebapptoken)'
