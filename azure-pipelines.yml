@@ -26,7 +26,7 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: Bash@3
-  displayName: 'Use PHP version $(phpVersion)'
+  displayName: 'Static Site Generator Export'
   inputs:
     targetType: 'inline'
     script: |
@@ -35,6 +35,7 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: ArchiveFiles@2
+  displayName: 'Zip Static Assets'
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)/_site'
     includeRootFolder: false
@@ -43,6 +44,7 @@ steps:
     replaceExistingArchive: true
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Upload as Pipeline Artifact of Assets'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
