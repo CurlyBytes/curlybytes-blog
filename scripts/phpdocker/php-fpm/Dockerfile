@@ -1,5 +1,5 @@
 #Docker file from phpdocker.io template generator
-ARG  PHP_VERSION=7.4-fpm
+ARG  PHP_VERSION=8.3-fpm
 
 FROM phpdockerio/php:${PHP_VERSION}
 WORKDIR "/application"
