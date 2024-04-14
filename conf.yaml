@@ -1,31 +1,31 @@
 #GitBlog配置文件，使用4个空格代替Tab
 ---
 url: /
-title: Your-GitBlog
-subtitle: 自豪地采用GitBlog
-theme: simple
-enableCache: true
+title: Curly Bytes
+subtitle: Creating real solution in Modern IT Problems
+theme: cube
+enableCache: false
 highlight: true
 mathjax: false
 katex: false
 youyan:
 baiduAnalytics:
-keywords: GitBlog,博客,Markdown博客,jockchou
+keywords: CurlyBytes, Cocoy blog, Curly, Bytes, Software Development, DevSecOps, Career
 description: >
-    GitBlog是一个简单易用的Markdown博客系统
-version: 2.2
+    A modest, but hard working and consistently sets firm goals for myself. Then, Once i have define the benchamrks, taking the necessary steps to achieve those milestones
+version: 2.3
 author:
-    name: your-name
-    email: your-email@example.com
-    github: your-github
-    weibo: your-weibo
-    avatar:
+    name: Francisco Abayon
+    email: franz.noyaba@gmail.com
+    github: https://github.com/CurlyBytes
+    weibo: 
+    avatar: https://0.gravatar.com/avatar/dd90d96a247f981286ae0092abc026ba
 blog:
     recentSize: 5
     pageSize: 6
     pageBarSize: 5
     allBlogsForPage: false
 text:
-    title: 介绍
+    title: About the Author
     intro: >
-          本博客使用Gitblog搭建，欢迎你!
+           Franciso wants to be called as Cocoy, advocates to Digital Innovation Evangelist such as DevSecOps, Microservices and Maturity Model Frameworks

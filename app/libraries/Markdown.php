@@ -548,7 +548,7 @@ class Markdown {
 				"sitePath" => $sitePath,
 				"mtime" => $mtime,
 				"ctime" => $ctime,
-				"siteURL" => $siteURL,
+				"siteURL" => $siteURL
 			);
 
 			//读取自定义博客属性信息
@@ -560,11 +560,15 @@ class Markdown {
 			//草稿状态的不处理
 			if ($blogProp['status'] == "draft") continue;
 
+			if (strtotime($blogProp['date']) > strtotime(date('Y-m-d'))) continue;
+
+
 			$btime = strtotime($ctime);
 			if (empty($blogProp['date'])) {
 				$blogProp['date'] = date("Y-m-d", $btime);
 			}
 
+			
 			//按显示日期归档
 			$atime = strtotime($blogProp['date']);
 			$month = date("Y-m", $atime);

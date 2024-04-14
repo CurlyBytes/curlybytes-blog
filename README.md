@@ -104,3 +104,19 @@ QQ群：`84692078`
 [25]: http://blog.ckeyer.com
 [26]: http://wangzugang.net
 [27]: http://liyu34.xyz
+
+
+http://localhost:8080/
+
+php /localhost:8080/index.php Gitblog exportSite
+
+php index.php Gitblog exportSite
+
+
+az webapp config set --name test-webapp-poc --resource-group rg-test-rnd --php-version 7.4
+
+
+az webapp config set --name test-webapp-poc --resource-group rg-test-rnd --linux-fx-version "PHP|7.4"
+
+
+az account set --subscription 977dad66-630e-4402-9280-297a1d7daee5

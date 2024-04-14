@@ -1,23 +1,24 @@
 <footer class="footer">
     <div class="footer_bottom">
         <div class="follow-us">
-            <a class="fa fa-github social-icon" href="https://github.com/{{ site.author.github }}"></a>
-            <a class="fa fa-weibo social-icon" href="http://weibo.com/{{ site.author.weibo }}"></a>
+            <a class="fa fa-github social-icon" href="{{ site.author.github }}"></a>
+            <a class="fa fa-linkedin social-icon" href="https://www.linkedin.com/in/francisco-abayon-4bb327128/"></a>
+            <!--a class="fa fa-weibo social-icon" href="{{ site.author.weibo }}"></a-->
         </div>
 
         <div class="copy">
-            <p>Copyright &copy; 2015 Gitblog | Proudly powered by <a href="http://www.gitblog.cn/">Gitblog</a>.</p>
+            <p>Copyright &copy; 2020 - 2024 Curlybytes.</p>
         </div>
     </div>
 </footer>
 
-<a title="首页" class="fa fa-paper-plane dp-dropplets-icon" href="{{ site.url }}"></a>
+<a title="Home" class="fa fa-paper-plane dp-dropplets-icon" href="{{ site.url }}"></a>
 {% if pages > 1 %}
 	{% if pagination.prev %}
-	<a title="上一页" class="fa fa-arrow-left dp-dropplets-icon dp-dropplets-prev" href="{{ pagination.prev.url }}"></a>
+	<a title="Prev" class="fa fa-arrow-left dp-dropplets-icon dp-dropplets-prev" href="{{ pagination.prev.url }}"></a>
 	{% endif %}
 	
 	{% if pagination.next %}
-	<a title="下一页" class="fa fa-arrow-right dp-dropplets-icon dp-dropplets-next" href="{{ pagination.next.url }}"></a>
+	<a title="Next" class="fa fa-arrow-right dp-dropplets-icon dp-dropplets-next" href="{{ pagination.next.url }}"></a>
 	{% endif %}
 {% endif %}

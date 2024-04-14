@@ -3,13 +3,20 @@
 	<title>{% if blog %}{{ blog.title }}|{{ site.title }} {% else %}{{ site.title }}{% endif %}</title>
 	<meta name="keywords" content="{% if blog %}{{ blog.keywords }},{{ site.keywords }}{% else %}{{ site.keywords }}{% endif %}">
 	<meta name="description" content="{% if blog %}{{ blog.summary | striptags | replace({'\n': ''}) | slice(0, 140) }}{% else %}{{ site.description }}{% endif %}">
+	<meta name="msvalidate.01" content="1C632831D4FA57B1403B5EDCC7BA0896" />
 	<link rel="stylesheet" href="{{ site.url }}theme/cube/css/font-awesome.min.css?ver={{ site.version }}">
 	<link rel="stylesheet" href="{{ site.url }}theme/cube/css/style.css?ver={{ site.version }}">
 	<link rel="stylesheet" href="{{ site.url }}theme/cube/css/style-mobile.css?ver={{ site.version }}">
 	<link rel="stylesheet" href="{{ site.url }}theme/cube/css/main.css?ver={{ site.version }}">
 	<link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}feed.xml" />
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" type="text/css">
-    
+    <script type="text/javascript">
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+		})(window, document, "clarity", "script", "j1bbc1t0hd");
+	</script>
 	{% if site.baiduAnalytics %}<script>
 	var _hmt = _hmt || [];
 	(function() {

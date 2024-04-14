@@ -9,7 +9,8 @@
 .project
 .settings
 .idea
-/_site
+/_site/*
+!docker-compose.yml
 /tasklist.txt
 /wordpress.xml
 /userList.txt
