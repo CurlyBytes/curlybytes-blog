@@ -1,6 +1,6 @@
 #GitBlog配置文件，使用4个空格代替Tab
 ---
-url: /
+url: https://curlybytes.com/
 title: Curly Bytes
 subtitle: Creating real solution in Modern IT Problems
 theme: cube
@@ -13,7 +13,7 @@ baiduAnalytics:
 keywords: CurlyBytes, Cocoy blog, Curly, Bytes, Software Development, DevSecOps, Career
 description: >
     A modest, but hard working and consistently sets firm goals for myself. Then, Once i have define the benchamrks, taking the necessary steps to achieve those milestones
-version: 2.4
+version: 2.5
 author:
     name: Francisco Abayon
     email: franz.noyaba@gmail.com
