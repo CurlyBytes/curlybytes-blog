@@ -107,3 +107,4 @@ Lastly lets change the settings and create the config.yml of the blog themificat
 ``` bash
 php index.php gitblog exportsite
 ```
+There is a folder created **_site** and you may upload the static assets into your hosting whether github pages upto static web apps, it will work smoothly.

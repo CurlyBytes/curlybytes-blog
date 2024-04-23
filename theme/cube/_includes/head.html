@@ -1,6 +1,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>{% if blog %}{{ blog.title }}|{{ site.title }} {% else %}{{ site.title }}{% endif %}</title>
+	<meta name="robots" content="index, follow">
 	<meta name="keywords" content="{% if blog %}{{ blog.keywords }},{{ site.keywords }}{% else %}{{ site.keywords }}{% endif %}">
 	<meta name="description" content="{% if blog %}{{ blog.summary | striptags | replace({'\n': ''}) | slice(0, 140) }}{% else %}{{ site.description }}{% endif %}">
 	<meta name="msvalidate.01" content="1C632831D4FA57B1403B5EDCC7BA0896" />
