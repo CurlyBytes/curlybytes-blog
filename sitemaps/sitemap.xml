@@ -9,17 +9,22 @@
 
 <url>
   <loc>https://curlybytes.com/</loc>
-  <lastmod>2024-04-14T13:56:45+00:00</lastmod>
+  <lastmod>2024-09-12T13:22:08+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
+  <loc>https://curlybytes.com/blog/ssh-on-multiiple-git-accounts.html</loc>
+  <lastmod>2024-09-12T13:22:08+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>https://curlybytes.com/blog/codeigniter-3-static-site-generator.html</loc>
-  <lastmod>2024-04-14T13:56:45+00:00</lastmod>
+  <lastmod>2024-09-12T13:22:08+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://curlybytes.com/blog/welcome-introduction.html</loc>
-  <lastmod>2024-04-14T13:56:45+00:00</lastmod>
+  <lastmod>2024-09-12T13:22:08+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 
