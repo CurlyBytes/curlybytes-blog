@@ -1,0 +1,22 @@
+<!--
+author: Francisco Abayon
+head: https://www.gravatar.com/avatar/dd90d96a247f981286ae0092abc026ba.jpg
+date: 2024-04-05    
+title: Codeigniter 3 - PHP Container
+tags: codeigniter3, framework, php, configuration, composer, container, phpunit, integration
+images: blog/img/codeigniter.jpg
+category: Codeigniter 3 Upgrades
+status: publish
+summary: Integrate Codeigniter 3 with PHPUnit via PHP Composer?!
+-->
+## Motivation
+This is the 2nd part of the series __Codeigniter 3 Upgrades__ , this time add the codeigniter 3 as composer with base automation test using PHPUnit
+
+## Problem Context
+Codeigniter is not well integrated in composer nor the automation test they there own manual testing library from the codeigniter 3 environments  <a href="https://codeigniter.com/userguide3/libraries/unit_testing.html" target="_blank" rel="nofollow">class</a>.
+
+
+## Pathfinding Solution
+This is where opensource community comes to play, shout out to <a href="https://github.com/kenjis" target="_blank" rel="nofollow">Kenji</a> on making the codiegniter 3 install via <a href="https://github.com/kenjis/codeigniter-composer-installer" target="_blank" rel="nofollow">composer</a> and codeigniter 3 phpunit <a href="https://github.com/kenjis/ci-phpunit-test" target="_blank" rel="nofollow">structure</a>
+
+First lets update our dockerfile to support composer image as multi stage build
