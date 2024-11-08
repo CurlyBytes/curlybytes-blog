@@ -6,7 +6,7 @@ title: Codeigniter 3 - PHP Container
 tags: codeigniter3, framework, php, configuration, composer, container
 images: blog/img/codeignier-3-repository.png
 category: Codeigniter 3 Upgrades
-status: draft
+status: publish
 summary: Rapid PHP Containerization from phpdocker.io!
 -->
 ## Motivation
