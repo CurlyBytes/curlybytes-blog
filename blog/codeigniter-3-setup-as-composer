@@ -2,7 +2,7 @@
 author: Francisco Abayon
 head: https://www.gravatar.com/avatar/dd90d96a247f981286ae0092abc026ba.jpg
 date: 2024-04-05    
-title: Codeigniter 3 - PHP Container
+title: Codeigniter 3 - Composer
 tags: codeigniter3, framework, php, configuration, composer, container, phpunit, integration
 images: blog/img/codeigniter.jpg
 category: Codeigniter 3 Upgrades
@@ -20,3 +20,164 @@ Codeigniter is not well integrated in composer nor the automation test they ther
 This is where opensource community comes to play, shout out to <a href="https://github.com/kenjis" target="_blank" rel="nofollow">Kenji</a> on making the codiegniter 3 install via <a href="https://github.com/kenjis/codeigniter-composer-installer" target="_blank" rel="nofollow">composer</a> and codeigniter 3 phpunit <a href="https://github.com/kenjis/ci-phpunit-test" target="_blank" rel="nofollow">structure</a>
 
 First lets update our dockerfile to support composer image as multi stage build
+```dockerfile
+ARG  PHP_VERSION=7.4
+
+FROM phpdockerio/php:${PHP_VERSION}-fpm
+WORKDIR "/application"
+
+ENV appname="blog"
+ENV versionmajor="1"
+ENV versionminor="1"
+ENV versionpatch="1"
+ENV appversion="v.${versionmajor}.${versionminor}.${versionpatch}"
+ENV appauthor="Francisco Abayon"
+
+LABEL name="${appname}" \
+      version="${appversion}" \
+      author="${appauthor}" \
+      description="CurlyBytes Codeigniter 3 upgrades" 
+
+
+RUN apt-get update && apt-get upgrade -y; \
+    apt-get -y --no-install-recommends install \
+        git \ 
+        php${PHP_VERSION}-bcmath \
+        php${PHP_VERSION}-mbstring \ 
+        php${PHP_VERSION}-xml \ 
+        php${PHP_VERSION}-curl \ 
+        php${PHP_VERSION}-mysql \
+        php${PHP_VERSION}-oauth \
+        php${PHP_VERSION}-odbc \
+        php${PHP_VERSION}-pcov \
+        php${PHP_VERSION}-phpdbg \
+        php${PHP_VERSION}-protobuf \
+        php${PHP_VERSION}-pspell \
+        php${PHP_VERSION}-psr \
+        php${PHP_VERSION}-redis \
+        php${PHP_VERSION}-soap \
+        php${PHP_VERSION}-sqlite3 \
+        php${PHP_VERSION}-ssh2 \
+        php${PHP_VERSION}-swoole \
+        php${PHP_VERSION}-tidy \
+        php${PHP_VERSION}-uuid \
+        php${PHP_VERSION}-xdebug \
+        php${PHP_VERSION}-xmlrpc \
+        php${PHP_VERSION}-yaml \
+        zlib1g-dev \
+        libzip-dev \
+        unzip \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+COPY ./public ./public
+COPY ./app ./app
+COPY ./tests ./tests
+
+# INSTALL AND UPDATE COMPOSER
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN composer self-update 
+COPY composer.json .
+RUN composer install
+```
+
+Then we update the composer.json file to support dynamic config for vendors autoloading, and we pointed to _,/app/third_party_ since this part of the folder structure from codeigniter 3 and move the file to the root of the project
+```json
+{
+    "name": "curlybytes/codeigniter-3-upgrades",
+    "description": "Codeigniter 3 upgrade template",
+    "type": "project",
+	"require": {
+		"php": "^7.4",
+		"codeigniter/framework": "3.1.*",
+		"app-insights-php/monolog-handler": "^0.2.3",
+		"nesbot/carbon": "^2.57"
+	},
+	"require-dev": {
+		"mikey179/vfsstream": "1.1.*",
+        "phpunit/phpunit": "^9.6",
+        "kenjis/ci-phpunit-test": "^3.0"
+	},
+    "config": { 
+        "vendor-dir": "./app/third_party" 
+    } 
+ }
+```
+
+We create a named volume for __vendor__, since we are implement hot reload on the entire root project, and restructure the volumes to  adjust to one higher level cause we also need to move the _docker-compose.yml_ in the root of the project too
+
+```yml
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: '3.1'
+services:
+
+
+    webserver:
+        image: 'nginx:1.27.2-alpine'
+        working_dir: /application
+        volumes:
+            - '.:/application'
+            - 'vendor:/application/app/third_party'
+            - './composer.json:/application/composer.json'
+            - './scripts/phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+        ports:
+            - '13100:80'
+
+    php-fpm:
+        build:
+            context: ./
+            dockerfile: ./scripts/phpdocker/php-fpm/Dockerfile
+        working_dir: /application
+        volumes:
+            - '.:/application'
+            - 'vendor:/application/app/third_party'
+            - './composer.json:/application/composer.json'
+            - './scripts/phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini'
+            - './scripts/phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/cli/conf.d/99-overrides.ini'
+volumes:
+  vendor:
+
+```
+
+We manually mount the __composer.json__ file to resolve the issue of missing __vendors__ folder upon generating the php libraries insiide of dockerfile. Then we adjust the context directory so that we can run the docker compose command file as root folder even inside at __scripts__ folder so that it can navigate to other folder directory as we move along. Since the composer image is now add in the custom dockerfile we can perform composer command inside the container of _php-fpm_ and perform the documentation provided from kenji to install the codeigniter 3 via composer project. Also added volumen __vendor__ as _named volume_ to ensure that specific folder in third party path will not be overwrite at your local volume folders/files. 
+
+```bash
+composer create-project kenjis/codeigniter-composer-installer codeigniter --working-dir=. --remove-vcs
+```
+copy the __application__ and __public__ folders to the root of your editor. Then rename your __application__ folder to __app__
+
+then update your index.php to
+```php
+$application_folder = '../app';
+
+$system_path = '../app/third_party/codeigniter/framework/system';
+```
+
+add runt his one in terminal to install phpunit for codeigniter 3 structure
+```bash
+php ./app/third_party/kenjis/ci-phpunit-test/install.php -a ./app -p ./public -t ./tests
+```
+
+then update your Booststrap.php to
+```php
+$application_folder = '../app';
+
+$system_path = '../app/third_party/codeigniter/framework/system';
+```
+
+and finally fix your unit test scripts from the hello world in codeigniter. We run the phpunit test with the following command
+```cli
+app/third_party/bin/phpunit -c tests/
+```
+
+we rerun the docker compose command in the root folder with force recreate to repoint everything to volumes and name volume
+```cli
+docker compose up -d --build --force-recreate
+```
+![Alt text](img/codeigniter-hello-world.png "hello world in codeigniter 3 inside docker compose")
+
+And this is the final looks of the folder structure:
+![Alt text](img/codeigniter-3-folder-structure.png "hello world in codeigniter 3 inside docker compose")
+
